@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pronouns Practice ✦ Paulo</title>
+
+  <style>
+    :root{
+      --bg:#050018;
+      --bg2:#12052c;
+      --paper:#f6f2ea;
+      --text:#f5f5f7;
+      --muted:#cbc3e7;
+      --purple:#8d7bff;
+      --orange:#d58d4b;
+      --green:#79dba4;
+      --red:#ff9c9c;
+      --line:rgba(255,255,255,.1);
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      min-height:100vh;
+      font-family:Inter,system-ui,sans-serif;
+      background:
+      radial-gradient(circle at top left, rgba(141,123,255,.16), transparent 28%),
+      radial-gradient(circle at bottom right, rgba(213,141,75,.12), transparent 24%),
+      linear-gradient(145deg,var(--bg),var(--bg2));
+      color:var(--text);
+      padding:18px 14px 80px;
+      line-height:1.6;
+    }
+
+    .container{
+      width:min(900px,100%);
+      margin:auto;
+    }
+
+    .hero{
+      border-radius:34px;
+      padding:34px 24px;
+      border:1px solid var(--line);
+      background:
+      radial-gradient(circle at 85% 0%, rgba(213,141,75,.18), transparent 34%),
+      linear-gradient(145deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      margin-bottom:24px;
+      box-shadow:0 20px 50px rgba(0,0,0,.28);
+    }
+
+    .eyebrow{
+      color:#efc18f;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.72rem;
+      font-weight:900;
+      margin-bottom:14px;
+    }
+
+    h1{
+      font-size:clamp(3rem,14vw,5.5rem);
+      line-height:.9;
+      letter-spacing:-.08em;
+      margin-bottom:18px;
+    }
+
+    h1 em{
+      color:var(--purple);
+      font-style:italic;
+    }
+
+    .hero p{
+      color:var(--muted);
+      max-width:700px;
+    }
+
+    .paper{
+      background:linear-gradient(145deg, rgba(255,250,242,.98), rgba(246,242,234,.95));
+      color:#241942;
+      border-radius:30px;
+      padding:28px 22px;
+      margin-bottom:28px;
+      position:relative;
+      overflow:hidden;
+      box-shadow:0 20px 50px rgba(0,0,0,.24);
+    }
+
+    .paper::before{
+      content:"";
+      position:absolute;
+      width:74px;
+      height:18px;
+      background:rgba(213,141,75,.25);
+      right:26px;
+      top:14px;
+      border-radius:4px;
+      transform:rotate(5deg);
+    }
+
+    .paper p{
+      margin-bottom:14px;
+      line-height:1.8;
+    }
+
+    .section-title{
+      margin:40px 0 18px;
+    }
+
+    .section-title span{
+      color:#efc18f;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.72rem;
+      font-weight:900;
+    }
+
+    .section-title h2{
+      font-size:clamp(2rem,8vw,3.5rem);
+      line-height:1;
+      letter-spacing:-.06em;
+      margin-top:8px;
+    }
+
+    .exercise-list{
+      display:grid;
+      gap:16px;
+    }
+
+    .exercise{
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.05);
+      border-radius:24px;
+      padding:18px;
+    }
+
+    .exercise.done{
+      border-color:rgba(121,219,164,.4);
+      background:rgba(121,219,164,.08);
+    }
+
+    .question{
+      font-weight:800;
+      margin-bottom:12px;
+      line-height:1.6;
+    }
+
+    input{
+      width:100%;
+      border:none;
+      outline:none;
+      border-radius:16px;
+      padding:14px;
+      font:inherit;
+      background:rgba(255,255,255,.08);
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.08);
+      margin-bottom:10px;
+    }
+
+    .buttons{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+
+    button{
+      border:none;
+      border-radius:16px;
+      padding:14px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.2s ease;
+      font:inherit;
+    }
+
+    button:active{
+      transform:scale(.98);
+    }
+
+    .check-btn{
+      background:var(--paper);
+      color:#1c1038;
+    }
+
+    .feedback{
+      margin-top:10px;
+      min-height:20px;
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .feedback.good{
+      color:var(--green);
+      font-weight:800;
+    }
+
+    .feedback.bad{
+      color:var(--red);
+      font-weight:700;
+    }
+
+    .progress{
+      position:sticky;
+      top:10px;
+      z-index:30;
+      backdrop-filter:blur(16px);
+      background:rgba(5,0,24,.78);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:24px;
+      padding:14px;
+      margin-bottom:26px;
+    }
+
+    .progress-head{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:10px;
+      font-size:.86rem;
+      color:var(--muted);
+    }
+
+    .progress-head strong{
+      color:var(--paper);
+    }
+
+    .bar{
+      height:10px;
+      border-radius:999px;
+      overflow:hidden;
+      background:rgba(255,255,255,.08);
+    }
+
+    .fill{
+      width:0%;
+      height:100%;
+      background:linear-gradient(90deg,var(--purple),#efc18f);
+      transition:.3s ease;
+    }
+
+    .completion{
+      margin-top:40px;
+      border-radius:30px;
+      padding:34px 20px;
+      text-align:center;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+      radial-gradient(circle at 20% 20%, rgba(141,123,255,.16), transparent 30%),
+      linear-gradient(145deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+    }
+
+    .completion h2{
+      font-size:clamp(2rem,10vw,4rem);
+      line-height:1;
+      letter-spacing:-.07em;
+      margin-bottom:12px;
+    }
+
+    .completion p{
+      color:var(--muted);
+    }
+
+    @media(min-width:760px){
+
+      body{
+        padding:28px 20px 80px;
+      }
+
+      .hero{
+        padding:46px;
+      }
+
+      .buttons{
+        grid-template-columns:1fr auto;
+      }
+
+      .check-btn{
+        width:160px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <section class="hero">
+      <div class="eyebrow">Photographer English ✦ Pronouns</div>
+
+      <h1>
+        Pronouns<br>
+        <em>Practice</em>
+      </h1>
+
+      <p>
+        Today you are going to practice subject pronouns, object pronouns and interpretation through a real photography context.
+      </p>
+    </section>
+
+    <section class="progress">
+      <div class="progress-head">
+        <strong id="progressText">0 completed</strong>
+        <span id="progressPercent">0%</span>
+      </div>
+
+      <div class="bar">
+        <div class="fill" id="fill"></div>
+      </div>
+    </section>
+
+    <div class="section-title">
+      <span>Reading</span>
+      <h2>The Creative Team</h2>
+    </div>
+
+    <section class="paper">
+
+      <p>
+        Ethan is a photographer from Canada.
+      </p>
+
+      <p>
+        He works with Sofia and Daniel during weddings and outdoor sessions.
+      </p>
+
+      <p>
+        Sofia is responsible for the lights and Daniel works with the cameras.
+      </p>
+
+      <p>
+        They are very calm and organized during photoshoots.
+      </p>
+
+      <p>
+        Many clients are nervous at the beginning, but Ethan always helps them feel comfortable.
+      </p>
+
+      <p>
+        One couple says:
+      </p>
+
+      <p>
+        “We are afraid of looking awkward in pictures.”
+      </p>
+
+      <p>
+        Ethan smiles and says:
+      </p>
+
+      <p>
+        “You look amazing. Just relax and trust us.”
+      </p>
+
+      <p>
+        During the session, Sofia stands beside the couple while Daniel stays behind the camera.
+      </p>
+
+      <p>
+        The team works together all day and the atmosphere is always natural and relaxed.
+      </p>
+
+      <p>
+        At the end of the photoshoot, the clients say:
+      </p>
+
+      <p>
+        “You guys are incredible.”
+      </p>
+
+    </section>
+
+    <div class="section-title">
+      <span>Exercises</span>
+      <h2>Pronouns Practice</h2>
+    </div>
+
+    <section class="exercise-list" id="exerciseList"></section>
+
+    <section class="completion">
+      <h2>Great job ✦</h2>
+
+      <p>
+        You practiced pronouns, interpretation and photography vocabulary in real contexts.
+      </p>
+    </section>
+
+  </main>
+
+  <script>
+
+    const exercises = [
+
+      {
+        question: "1. Ethan is a photographer. → ______ is a photographer.",
+        answers: ["he"]
+      },
+
+      {
+        question: "2. Sofia and Daniel work together. → ______ work together.",
+        answers: ["they"]
+      },
+
+      {
+        question: "3. The camera is expensive. → ______ is expensive.",
+        answers: ["it"]
+      },
+
+      {
+        question: "4. The clients are nervous. → ______ are nervous.",
+        answers: ["they"]
+      },
+
+      {
+        question: "5. Ethan and I work at weddings. → ______ work at weddings.",
+        answers: ["we"]
+      },
+
+      {
+        question: "6. The bride is emotional. → ______ is emotional.",
+        answers: ["she"]
+      },
+
+      {
+        question: "7. Daniel helps Ethan during photoshoots. → ______ helps him during photoshoots.",
+        answers: ["he"]
+      },
+
+      {
+        question: "8. Sofia usually talks to nervous clients before the photoshoot because the couple trusts her a lot. → ______ usually talks to nervous clients before the photoshoot because ______ trust ______ a lot.",
+        answers: ["she they her"]
+      },
+
+      {
+        question: "9. Ethan and Daniel always arrive early because the wedding guests often need help before the ceremony starts. → ______ always arrive early because the wedding guests often need help before ______ starts.",
+        answers: ["they it"]
+      },
+
+      {
+        question: "10. The bride and the groom are not comfortable in front of the camera, so Ethan gives directions to the couple all the time. → ______ are not comfortable in front of the camera, so Ethan gives directions to ______ all the time.",
+        answers: ["they them"]
+      },
+
+      {
+        question: "11. Sofia stands beside the bride while Daniel helps the groom with his jacket and tie. → Sofia stands beside ______ while Daniel helps ______ with ______ jacket and tie.",
+        answers: ["her him his"]
+      },
+
+      {
+        question: "12. Ethan likes working with Sofia and Daniel because the team is very calm during stressful weddings. → Ethan likes working with ______ because ______ are very calm during stressful weddings.",
+        answers: ["them they"]
+      },
+
+      {
+        question: "13. The cameras are heavy, but Daniel carries the equipment because the assistants are busy with the lights. → ______ are heavy, but Daniel carries ______ because ______ are busy with the lights.",
+        answers: ["they it they"]
+      },
+
+      {
+        question: "14. The clients love the pictures because Ethan makes everyone feel relaxed and natural during the session. → The clients love the pictures because Ethan makes ______ feel relaxed and natural during ______.",
+        answers: ["them it"]
+      },
+
+      {
+        question: "15. Sofia tells the couple to look at each other while Ethan prepares the camera behind them. → Sofia tells ______ to look at each other while Ethan prepares ______ behind ______.",
+        answers: ["them it them"]
+      },
+
+      {
+        question: "16. Daniel talks to Ethan before every wedding because he wants the team to stay organized during the event. → Daniel talks to Ethan before every wedding because ______ wants the team to stay organized during ______.",
+        answers: ["he it"]
+      },
+
+      {
+        question: "17. The bride says the pictures are amazing because the photographers help her feel comfortable all day. → The bride says the pictures are amazing because the photographers help ______ feel comfortable all day.",
+        answers: ["her"]
+      },
+
+      {
+        question: "18. Ethan gives the clients directions while Sofia adjusts the lights beside the dance floor. → Ethan gives ______ directions while Sofia adjusts ______ beside the dance floor.",
+        answers: ["them them"]
+      },
+
+      {
+        question: "19. The guests are excited because the wedding ceremony is beautiful and emotional. → ______ are excited because ______ is beautiful and emotional.",
+        answers: ["they it"]
+      },
+
+      {
+        question: "20. Ethan and Sofia work with many international couples, and the clients often recommend the photographers to their friends. → Ethan and Sofia work with many international couples, and the clients often recommend ______ to ______ friends.",
+        answers: ["them their"]
+      }
+
+    ];
+
+    const list = document.getElementById("exerciseList");
+
+    exercises.forEach((exercise, index) => {
+
+      const div = document.createElement("div");
+      div.className = "exercise";
+
+      div.innerHTML = `
+        <div class="question">${exercise.question}</div>
+
+        <div class="buttons">
+          <input type="text" placeholder="Type your answer..." />
+
+          <button class="check-btn">
+            Check
+          </button>
+        </div>
+
+        <div class="feedback"></div>
+      `;
+
+      list.appendChild(div);
+
+    });
+
+    const checkButtons = document.querySelectorAll(".check-btn");
+
+    const completed = new Set();
+
+    function normalize(text){
+
+      return text
+      .toLowerCase()
+      .trim()
+      .replace(/[.,!?]/g,"")
+      .replace(/\s+/g," ");
+
+    }
+
+    function updateProgress(){
+
+      const total = exercises.length;
+      const done = completed.size;
+      const percent = Math.round((done/total)*100);
+
+      document.getElementById("progressText").textContent =
+      `${done} completed`;
+
+      document.getElementById("progressPercent").textContent =
+      `${percent}%`;
+
+      document.getElementById("fill").style.width =
+      `${percent}%`;
+
+    }
+
+    checkButtons.forEach((button,index)=>{
+
+      button.addEventListener("click",()=>{
+
+        const card = button.closest(".exercise");
+
+        const input =
+        card.querySelector("input");
+
+        const feedback =
+        card.querySelector(".feedback");
+
+        const user =
+        normalize(input.value);
+
+        const accepted =
+        exercises[index].answers.map(a=>normalize(a));
+
+        if(accepted.includes(user)){
+
+          feedback.textContent =
+          "✅ Correct!";
+
+          feedback.className =
+          "feedback good";
+
+          card.classList.add("done");
+
+          completed.add(index);
+
+          updateProgress();
+
+        }else{
+
+          feedback.textContent =
+          "❌ Try again.";
+
+          feedback.className =
+          "feedback bad";
+
+        }
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>
